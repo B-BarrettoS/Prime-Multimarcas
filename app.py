@@ -6,5 +6,9 @@ app = Flask(__name__)
 def home():
     return render_template('index.html')
 
+@app.route('/joias')
+def joias():
+    return render_template('joias.html')
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

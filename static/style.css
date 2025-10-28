@@ -9,7 +9,7 @@ body {
 /* Sidebar */
 .sidebar {
     height:100%;
-    width:0;
+    width0;
     position:fixed;
     z-index:100;
     top:0;
@@ -54,7 +54,7 @@ body {
 
 /* WhatsApp fixo */
 .whatsapp-float { position:fixed; bottom:20px; right:20px; width:50px; height:50px; background:#25D366; color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.8em; box-shadow:0 4px 12px rgba(0,0,0,0.2); transition:0.3s; }
-.whatsapp-float:hover { background:#128C7E; }
+.whatsapp-float:hover { background:#128C7E; }   
 
 /* Footer */
 footer { text-align:center; padding:10px 0; background:#eaeaea; margin-top:20px; font-size:0.9em; color:#333; }
@@ -66,3 +66,41 @@ footer { text-align:center; padding:10px 0; background:#eaeaea; margin-top:20px;
     .grid { grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); }
     .card img { height:120px; }
 }
+
+/* Catálogo de Joias */
+.product-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px auto;
+    width: 180px; /* card menor */
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.product-card:hover { 
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.product-image {
+    width: 100px; /* imagem pequena */
+    height: auto;
+    margin-bottom: 8px;
+}
+
+.product-info p {
+    margin: 3px 0;
+    font-size: 13px;
+    color: #555;
+}
+
+.product-info strong {
+    color: #333;
+}
+
+.product-card .btn-contato {
+    font-size: 12px;
+    padding: 5px 10px;
+}
+

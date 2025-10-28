@@ -38,12 +38,14 @@
                 </div>
             </div>
             <div class="card">
-                <img src="{{ url_for('static', filename='images/produto2.jpg') }}" alt="Joias">
-                <div class="card-info">
-                    <h3>Joias</h3>
-                    <p>Prata 925</p>
-                    <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20saber%20mais%20sobre%20Joias" target="_blank" class="btn-contato"><i class="fab fa-whatsapp"></i> Contato</a>
-                </div>
+                <a href="{{ url_for('joias') }}">
+                    <img src="{{ url_for('static', filename='images/produto2.jpg') }}" alt="Joias">
+                    <div class="card-info">
+                        <h3>Joias</h3>
+                        <p>Prata 925</p>
+                        <span class="btn-contato"><i class="fas fa-eye"></i> Ver Produtos</span>
+                    </div>
+                </a>
             </div>
             <div class="card">
                 <img src="{{ url_for('static', filename='images/produto3.jpg') }}" alt="Roupas">
