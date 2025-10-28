@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anéis - Prime Multimarcas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <ul>
+            <li><a href="{{ url_for('home') }}">HOME</a></li>
+            <li><a href="https://wa.me/5511999999999" target="_blank">WHATSAPP</a></li>
+            <li><a href="#">INSTAGRAM</a></li>
+        </ul>
+    </div>
+
+    <section class="produtos" style="padding-top:50px;">
+        <h2>Anéis</h2>
+        <div class="container grid">
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/anel1.jpg') }}" alt="Anel Prata Solitário">
+                <div class="card-info">
+                    <h5>ANEL PRATA SOLITARIO ZIRCONIA CORACAO ARO TRABALHADO</h5>
+                    <p>0062550</p>
+                    <p>R$ 64,90</p>
+                    <a href="https://wa.me/5511999999999?text=Quero%20saber%20mais%20sobre%20o%20Anel%20Prata%20Solitário" class="btn-contato">VEJA MAIS</a>
+                </div>
+            </div>
+            <!-- Novo Anel -->
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/anel2.jpg') }}" alt="Novo Anel">
+                <div class="card-info">
+                    <h5>ANEL PRATA SOLITARIO ZIRCONIA CORACAO ESMERALDA ARO TRABALHADO</h5>
+                    <p>0062553</p>
+                    <p>R$ 65,90</p>
+                    <a href="https://wa.me/5511999999999?text=Quero%20saber%20mais%20sobre%20o%20Anel%20Prata%20Solitário" class="btn-contato">VEJA MAIS</a>
+                </div>
+            </div>
+            <!-- Novo Anel -->
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/anel3.jpg') }}" alt="Novo Anel">
+                <div class="card-info">
+                    <h5>ANEL PRATA SOLITARIO ZIRCONIA CORACAO ROSA ARO TRABALHADO</h5>
+                    <p>0062551</p>
+                    <p>R$ 65,90</p>
+                    <a href="https://wa.me/5511999999999?text=Quero%20saber%20mais%20sobre%20o%20Anel%20Prata%20Solitário" class="btn-contato">VEJA MAIS</a>
+                </div>
+            </div>
+        </div>
+
+                <!-- Botão de Voltar -->
+        <div style="text-align:center; margin-top:20px;">
+            <a href="/joias" class="btn-contato">← Voltar para Joias</a>
+        </div>
+    </section>
+    </section>
+
+</body>
+</html>

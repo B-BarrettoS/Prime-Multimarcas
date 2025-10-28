@@ -1,0 +1,64 @@
+<!-- correntes.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Correntes - Prime Multimarcas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <ul>
+            <li><a href="/">HOME</a></li>
+            <li><a href="https://wa.me/5511999999999" target="_blank">WHATSAPP</a></li>
+            <li><a href="#">INSTAGRAM</a></li>
+        </ul>
+    </div>
+
+    <!-- Produtos Correntes -->
+    <section class="produtos">
+        <h2>Correntes</h2>
+        <div class="container grid">
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/corrente1.jpg') }}" alt="Colar" class="colar-icon">
+                <div class="card-info">
+                    <h5>CORRENTE PRATA CARTIER 60 CM</h5>
+                    <p>0052258</p>
+                    <p>R$ 149,99</p>
+                    <a href="#" class="btn-contato">COMPRAR</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/corrente2.jpg') }}" alt="Colar" class="colar-icon">
+                <div class="card-info">
+                    <h5>CORRENTE PRATA CORDAO BAIANO 60 CM</h5>
+                    <p>0052245</p>
+                    <p>R$ 154,99</p>
+                    <a href="#" class="btn-contato">COMPRAR</a>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/corrente3.jpg') }}" alt="Colar" class="colar-icon">
+                <div class="card-info">
+                    <h5>CORRENTE PRATA GRUMET 70 CM 4MM</h5>
+                    <p>0050926</p>
+                    <p>R$ 489,99</p>
+                    <a href="#" class="btn-contato">COMPRAR</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Botão de Voltar -->
+        <div style="text-align:center; margin-top:20px;">
+            <a href="/joias" class="btn-contato">← Voltar para Joias</a>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,39 +1,73 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Joias - Prime Multimarcas</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joias - Prime Multimarcas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-<!-- Top Menu -->
-<nav class="top-menu">
-    <a href="/">HOME</a>
-    <a href="/joias">JOIAS</a>
-    <a href="#contato">CONTATO</a>
-    <a href="https://instagram.com/seu_instagram" target="_blank">INSTAGRAM</a>
-</nav>
-
-<h2>Subcategorias de Joias</h2>
-<div class="container grid">
-    <div class="product-card">
-        <img src="{{ url_for('static', filename='images/icone_anel.png') }}" class="product-image" alt="Anéis">
-        <h3>Anéis</h3>
-        <a href="/joias/aneis" class="btn-contato">VEJA MAIS</a>
+    <!-- Topbar -->
+    <div class="topbar">
+        <ul>
+            <li><a href="{{ url_for('home') }}">HOME</a></li>
+            <li><a href="https://wa.me/5511999999999" target="_blank">WHATSAPP</a></li>
+            <li><a href="https://www.instagram.com/seuusuario" target="_blank">INSTAGRAM</a></li>
+        </ul>
     </div>
-    <div class="product-card">
-        <img src="{{ url_for('static', filename='images/icone_pulseira.png') }}" class="product-image" alt="Pulseiras">
-        <h3>Pulseiras</h3>
-        <a href="/joias/pulseiras" class="btn-contato">VEJA MAIS</a>
-    </div>
-</div>
 
-<footer id="contato">
-    <p>© 2025 Prime Multimarcas</p>
-</footer>
+    <!-- Hero da página -->
+    <section class="hero" style="height:30vh; background:#2c2c2c; display:flex; align-items:center; justify-content:center;">
+        <h1 style="color:#fff;">Joias - Prata 925</h1>
+    </section>
+
+    <!-- Categorias de Joias -->
+    <section class="produtos" id="categorias">
+        <h2>Categorias</h2>
+        <div class="container grid">
+            <!-- Anéis -->
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/icone_anel.png') }}" alt="Anéis">
+                <div class="card-info">
+                    <h3>Anéis</h3>
+                    <p>Prata 925 e designs exclusivos</p>
+                    <a href="{{ url_for('joias_aneis') }}" class="btn-contato">VEJA MAIS</a>
+                </div>
+            </div>
+
+            <!-- Pulseiras -->
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/icone_pulseira.png') }}" alt="Pulseiras">
+                <div class="card-info">
+                    <h3>Pulseiras</h3>
+                    <p>Estilos modernos e clássicos</p>
+                    <a href="{{ url_for('joias_pulseiras') }}" class="btn-contato">VEJA MAIS</a>
+                </div>
+            </div>
+
+            <!-- Correntes -->
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/icone_corrente.png') }}" alt="Correntes">
+                <div class="card-info">
+                    <h3>Correntes</h3>
+                    <p>Elegância e qualidade em prata</p>
+                    <a href="{{ url_for('joias_correntes') }}" class="btn-contato">VEJA MAIS</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp fixo -->
+    <a href="https://wa.me/5511999999999" class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 Prime Multimarcas - Todos os direitos reservados.</p>
+    </footer>
 
 </body>
 </html>
