@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Multimarcas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
+        <a href="#produtos"><i class="fas fa-box"></i> Produtos</a>
+        <a href="#contato"><i class="fas fa-phone"></i> Contato</a>
+    </div>
+    <span class="openbtn" onclick="openSidebar()">&#9776; Menu</span>
+
+    <!-- Hero compacto -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Prime Multimarcas</h1>
+            <p>Tecnologia, Joias e Roupas</p>
+        </div>
+    </section>
+
+    <!-- Produtos elegantes -->
+    <section class="produtos" id="produtos">
+        <h2>Nossos Produtos</h2>
+        <div class="container grid">
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/produto1.jpg') }}" alt="Tecnologia">
+                <div class="card-info">
+                    <h3>Tecnologia</h3>
+                    <p>Acessórios</p>
+                    <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20saber%20mais%20sobre%20Tecnologia" target="_blank" class="btn-contato"><i class="fab fa-whatsapp"></i> Contato</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/produto2.jpg') }}" alt="Joias">
+                <div class="card-info">
+                    <h3>Joias</h3>
+                    <p>Prata 925</p>
+                    <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20saber%20mais%20sobre%20Joias" target="_blank" class="btn-contato"><i class="fab fa-whatsapp"></i> Contato</a>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='images/produto3.jpg') }}" alt="Roupas">
+                <div class="card-info">
+                    <h3>Roupas</h3>
+                    <p>Diversas</p>
+                    <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20saber%20mais%20sobre%20Roupas" target="_blank" class="btn-contato"><i class="fab fa-whatsapp"></i> Contato</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp fixo -->
+    <a href="https://wa.me/5511999999999" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
+
+    <!-- Footer -->
+    <footer id="contato">
+        <p>© 2025 Prime Multimarcas</p>
+    </footer>
+
+    <script>
+        function openSidebar() { document.getElementById("sidebar").style.width = "200px"; }
+        function closeSidebar() { document.getElementById("sidebar").style.width = "0"; }
+    </script>
+</body>
+</html>

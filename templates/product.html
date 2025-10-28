@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <title>{{ product.name }} - Prime Multimarcas</title>
+</head>
+<body>
+  <h1>{{ product.name }}</h1>
+  <p>{{ product.desc }}</p>
+  <p>R$ {{ '%.2f'|format(product.price) }}</p>
+  <a href="/">Voltar</a>
+</body>
+</html>
