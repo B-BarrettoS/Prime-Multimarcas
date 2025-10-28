@@ -3,55 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joias - Prime Multimarcas</title>
+    <title>Catálogo de Joias - Prime Multimarcas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Sidebar -->
-    <div id="sidebar" class="sidebar">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeSidebar()">&times;</a>
-        <a href="{{ url_for('home') }}"><i class="fas fa-home"></i> Início</a>
-        <a href="#catalogo"><i class="fas fa-box"></i> Produtos</a>
-        <a href="#contato"><i class="fas fa-phone"></i> Contato</a>
-    </div>
-    <span class="openbtn" onclick="openSidebar()">&#9776; Menu</span>
+    <!-- Menu superior -->
+    <nav class="top-menu">
+        <ul>
+            <li><a href="/">HOME</a></li>
+            <li><a href="#contato">Contatos</a></li>
+            <li><a href="https://www.instagram.com/seuusuario" target="_blank">Instagram</a></li>
+        </ul>
+    </nav>
 
-    <!-- Hero compacto -->
-    <section class="hero">
-        <div class="hero-text">
-            <h1>Joias</h1>
-            <p>Prata 925</p>
-        </div>
-    </section>
-
-    <!-- Catálogo de joias -->
-    <section class="produtos" id="catalogo">
+    <section class="joias">
+        <h2>Catálogo de Joias</h2>
         <div class="container grid">
+
             <div class="product-card">
-                <img src="{{ url_for('static', filename='images/anel.jpg') }}" alt="Anel Prata Solitário" class="product-image">
+                <img src="{{ url_for('static', filename='images/anel.jpg') }}" alt="Anel Prata" class="product-image">
                 <div class="product-info">
                     <p><strong>Código:</strong> 0062550</p>
                     <p><strong>Descrição:</strong> ANEL PRATA SOLITARIO ZIRCONIA CORACAO ARO TRABALHADO</p>
                     <p><strong>Valor:</strong> R$ 59,90</p>
-                    <a href="https://wa.me/5511999999999?text=Olá!%20Quero%20saber%20mais%20sobre%20o%20Anel" target="_blank" class="btn-contato"><i class="fab fa-whatsapp"></i> Contato</a>
+                    <a href="/produto/0062550" class="btn-contato">VEJA MAIS</a>
                 </div>
             </div>
+
+            <!-- Você pode duplicar esse bloco para mais joias -->
+
         </div>
     </section>
 
     <!-- WhatsApp fixo -->
     <a href="https://wa.me/5511999999999" class="whatsapp-float" target="_blank"><i class="fab fa-whatsapp"></i></a>
 
-    <!-- Footer -->
     <footer id="contato">
         <p>© 2025 Prime Multimarcas</p>
     </footer>
 
-    <script>
-        function openSidebar() { document.getElementById("sidebar").style.width = "200px"; }
-        function closeSidebar() { document.getElementById("sidebar").style.width = "0"; }
-    </script>
 </body>
 </html>
