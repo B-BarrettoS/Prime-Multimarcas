@@ -1,0 +1,19 @@
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+def incrementar_visita():
+    try:
+        with open("visitas.txt", "r") as f:
+            count = int(f.read())
+    except FileNotFoundError:
+        count = 0
+    count += 1
+    with open("visitas.txt", "w") as f:
+        f.write(str(count))
+    return count
+
+@app.route('/')
+def home():
+    visitas = incrementar_visita()
+    return render_template('index.html', visitas=visitas)
