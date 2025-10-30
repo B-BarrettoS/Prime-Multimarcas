@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Prime Multimarcas</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.png') }}" type="image/x-icon">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -83,12 +87,11 @@
             });
         });
     </script>
-<div style="text-align:center; margin-top:20px; padding:10px; background:#f0f0f0; border-radius:6px;">
-    <p>Total de visitas: {{ visitas }}</p>
-    <p>Usuários online agora: {{ online }}</p>
-</div>
 
-
+    <div style="text-align:center; margin-top:20px; padding:10px; background:#f0f0f0; border-radius:6px;">
+        <p>Total de visitas: {{ visitas }}</p>
+        <p>Usuários online agora: {{ online }}</p>
+    </div>
 
 </body>
 </html>
