@@ -76,7 +76,13 @@ body {
 .produtos h2 { font-size:2em; margin-bottom:20px; text-align:center; }
 
 .container { max-width:1000px; margin:auto; }
-.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px; /* espaçamento entre os cards */
+    justify-items: center; /* centraliza os cards */
+}
+
 
 .card {
     background:#fff;
