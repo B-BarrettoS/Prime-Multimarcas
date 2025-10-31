@@ -1,50 +1,55 @@
 from flask import Flask, render_template, session
 from datetime import datetime, timedelta
 import os
+import uuid
 
 app = Flask(__name__)
-app.secret_key = "uma_chave_secreta"  # necessário para sessões
+app.secret_key = "uma_chave_secreta"  # Necessário para sessões
 
 VISITAS_FILE = "visitas.txt"
 usuarios_online = {}
 
-# Função para contar visitas
+# ---------- Função para contar visitas ----------
 def incrementar_visita():
+    """Incrementa e retorna o total de visitas do site."""
     if not os.path.exists(VISITAS_FILE):
-        with open(VISITAS_FILE, "w") as f:
+        with open(VISITAS_FILE, "w", encoding="utf-8") as f:
             f.write("0")
-    with open(VISITAS_FILE, "r") as f:
-        try:
-            count = int(f.read())
-        except:
-            count = 0
+
+    try:
+        with open(VISITAS_FILE, "r", encoding="utf-8") as f:
+            count = int(f.read().strip())
+    except (ValueError, FileNotFoundError):
+        count = 0
+
     count += 1
-    with open(VISITAS_FILE, "w") as f:
+    with open(VISITAS_FILE, "w", encoding="utf-8") as f:
         f.write(str(count))
+
     return count
 
-# Atualizar usuários online
+# ---------- Atualiza usuários online ----------
 @app.before_request
 def atualizar_usuarios_online():
     agora = datetime.now()
+    
+    # Gera user_id único se não existir na sessão
     if "user_id" not in session:
-        session["user_id"] = str(agora.timestamp())
+        session["user_id"] = str(uuid.uuid4())
+
+    # Atualiza último acesso do usuário
     usuarios_online[session["user_id"]] = agora
 
-# Rotas do site
+    # Remove usuários inativos há mais de 5 minutos
+    timeout = timedelta(minutes=5)
+    usuarios_online_copy = {u: t for u, t in usuarios_online.items() if agora - t <= timeout}
+    usuarios_online.clear()
+    usuarios_online.update(usuarios_online_copy)
+
+# ---------- Rotas ----------
 @app.route('/')
 def home():
     visitas = incrementar_visita()
-
-    # Remove sessões antigas (timeout 5 minutos)
-    agora = datetime.now()
-    timeout = timedelta(minutes=5)
-    usuarios_ativos = {user: last for user, last in usuarios_online.items() if agora - last <= timeout}
-
-    # Atualiza o dicionário global
-    usuarios_online.clear()
-    usuarios_online.update(usuarios_ativos)
-
     online = len(usuarios_online)
     return render_template('index.html', visitas=visitas, online=online)
 
@@ -64,5 +69,22 @@ def joias_pulseiras():
 def joias_correntes():
     return render_template('correntes.html')
 
+@app.route('/joias/gargantilhas')
+def joias_gargantilhas():
+    return render_template('gargantilhas.html')
+
+@app.route("/joias/brincos")
+def joias_brincos():
+    incrementar_visita()
+    return render_template("brincos.html")
+
+@app.route("/joias/piercings")
+def joias_piercings():
+    incrementar_visita()
+    return render_template("piercings.html")
+
+
+# ---------- Execução ----------
 if __name__ == '__main__':
-    app.run(debug=True)
+    # host='0.0.0.0' permite rodar no Render
+    app.run(debug=True, host='0.0.0.0', port=5000)
