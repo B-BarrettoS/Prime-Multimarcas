@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ categoria|capitalize }} - Prime Multimarcas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .produtos { padding: 40px 20px; text-align: center; }
+        .produtos h2 { font-size: 2em; margin-bottom: 20px; color: #333; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .card { background: #fff; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; position: relative; transition: transform 0.3s; }
+        .card:hover { transform: scale(1.03); }
+        .card img { width: 100%; height: 240px; object-fit: cover; display: block; }
+        .card-info { padding: 15px; }
+        .card-info h3 { margin: 8px 0; color: #444; }
+        .card-info p { margin: 5px 0; font-size: 14px; color: #777; }
+        .btn-whatsapp { display: inline-block; margin-top: 8px; background-color: #25d366; color: #fff; padding: 8px 14px; border-radius: 25px; font-weight: bold; text-decoration: none; transition: 0.3s; }
+        .btn-whatsapp:hover { background-color: #1ebe5b; }
+        .topbar { background: #222; padding: 10px 0; text-align: center; }
+        .topbar a { color: #fff; margin: 0 10px; text-decoration: none; font-weight: bold; }
+        .btn-voltar { display: inline-block; margin: 25px auto; background: #444; color: #fff; padding: 10px 20px; border-radius: 25px; text-decoration: none; transition: 0.3s; }
+        .btn-voltar:hover { background: #666; }
+
+        /* Hover da lupa */
+        .card-hover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 240px;
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2em;
+            opacity: 0;
+            transition: opacity 0.3s;
+            cursor: pointer;
+        }
+        .card:hover .card-hover { opacity: 1; }
+
+        /* Lightbox simples */
+        .lightbox {
+            position: fixed;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+        }
+        .lightbox img { max-width: 90%; max-height: 90%; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <!-- Topbar -->
+    <div class="topbar">
+        <a href="{{ url_for('home') }}">HOME</a>
+        <a href="{{ url_for('joias') }}">JOIAS</a>
+        <a href="https://wa.me/5511992314981" target="_blank">WHATSAPP</a>
+        <a href="https://www.instagram.com/_prime.joias" target="_blank">INSTAGRAM</a>
+    </div>
+
+    <!-- Conteúdo -->
+    <section class="produtos">
+        <h2>{{ categoria|capitalize }}</h2>
+
+        {% if produtos %}
+        <div class="grid">
+            {% for produto in produtos %}
+            <div class="card">
+                <img src="{{ url_for('static', filename=produto.imagem) }}" alt="{{ produto.nome }}">
+                <div class="card-hover" onclick="openLightbox('{{ url_for('static', filename=produto.imagem) }}')">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="card-info">
+                    <h3>{{ produto.nome }}</h3>
+                    <p><strong>Código:</strong> {{ produto.codigo }}</p>
+                    <p><strong>Preço:</strong> R$ {{ produto.preco }}</p>
+                    <a class="btn-whatsapp" target="_blank"
+                       href="https://wa.me/5511992314981?text=Olá!%20Gostei%20do%20{{ produto.nome }}%20(código%20{{ produto.codigo }})%20que%20vi%20no%20site.">
+                        <i class="fab fa-whatsapp"></i> Ver no WhatsApp
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>Nenhum produto cadastrado nesta categoria ainda.</p>
+        {% endif %}
+
+        <a href="{{ url_for('joias') }}" class="btn-voltar">← Voltar</a>
+    </section>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <img id="lightbox-img" src="" alt="Imagem Ampliada">
+    </div>
+
+    <footer style="text-align:center; padding:20px; background:#f4f4f4; margin-top:40px;">
+        <p>© 2025 Prime Multimarcas - Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').style.display = 'flex';
+        }
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>

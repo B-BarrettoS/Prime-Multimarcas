@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Prime Multimarcas</title>
+
+    <!-- CSS e FontAwesome -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Favicon exclusivo para o admin -->
+    <link rel="icon" href="{{ url_for('static', filename='admin/favicon.ico') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='admin/favicon.ico') }}" type="image/x-icon">
+
+    <style>
+        body { font-family: 'Poppins', sans-serif; background: #f4f4f4; margin:0; padding:0; }
+        header { background: #111; color: #fff; padding: 1.5rem 0; text-align: center; box-shadow:0 4px 6px rgba(0,0,0,0.1); }
+        header h1 { margin:0; font-size:2rem; }
+        main { max-width: 900px; margin: 2rem auto; background: #fff; border-radius: 15px; box-shadow:0 6px 20px rgba(0,0,0,0.1); padding: 2rem; }
+        h2 { text-align:center; margin-bottom: 2rem; color:#111; }
+
+        form { display:flex; flex-direction:column; gap:1rem; margin-bottom:2rem; }
+        label { font-weight:600; margin-bottom:0.3rem; }
+        input, select { padding:0.8rem; border-radius:8px; border:1px solid #ccc; font-size:1rem; transition: border 0.2s; }
+        input:focus, select:focus { border-color:#111; outline:none; }
+        .btn-submit { display:flex; justify-content:center; align-items:center; gap:0.5rem; padding:0.8rem; background:#111; color:#fff; border:none; border-radius:10px; font-weight:bold; cursor:pointer; transition:0.3s; }
+        .btn-submit:hover { background:#333; }
+        .mensagem { text-align:center; padding:0.8rem; border-radius:8px; margin-bottom:1rem; }
+        .sucesso { background:#d1f8d1; color:#257a25; }
+        .erro { background:#f8d1d1; color:#7a2525; }
+        .preview-container { text-align:center; margin-top:1rem; }
+        .preview-container img { max-width:200px; max-height:200px; border-radius:10px; border:1px solid #ccc; display:none; }
+
+        .produtos-grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:20px; margin-top:2rem; }
+        .card { background:#fff; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1); overflow:hidden; transition: transform 0.2s; }
+        .card:hover { transform: scale(1.03); }
+        .card img { width:100%; height:200px; object-fit:cover; }
+        .card-info { padding:15px; text-align:center; }
+        .card-info h3 { margin:5px 0; color:#333; }
+        .card-info p { margin:3px 0; font-size:14px; color:#555; }
+        .card-info .btn { display:inline-block; margin:5px; padding:6px 12px; border-radius:6px; text-decoration:none; color:#fff; font-weight:bold; transition:0.3s; }
+        .btn-edit { background:#007bff; }
+        .btn-edit:hover { background:#0056b3; }
+        .btn-delete { background:#dc3545; }
+        .btn-delete:hover { background:#a71d2a; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Painel Admin - Prime Multimarcas</h1>
+</header>
+
+<main>
+    <h2>Cadastro de Produtos</h2>
+
+    {% if mensagem %}
+        <div class="mensagem {{ 'sucesso' if sucesso else 'erro' }}">{{ mensagem }}</div>
+    {% endif %}
+
+    <form method="POST" action="/admin" enctype="multipart/form-data">
+        <input type="hidden" name="modo" value="{{ 'editar' if produto_edit else 'novo' }}">
+        {% if produto_edit %}
+            <input type="hidden" name="codigo_original" value="{{ produto_edit.codigo }}">
+        {% endif %}
+
+        <div>
+            <label for="codigo">ID</label>
+            <input type="text" id="codigo" name="codigo" value="{{ produto_edit.codigo if produto_edit else '' }}" placeholder="Ex: AN001" required>
+        </div>
+
+        <div>
+            <label for="nome">Nome do Produto</label>
+            <input type="text" id="nome" name="nome" value="{{ produto_edit.nome if produto_edit else '' }}" placeholder="Ex: Anel Coração Prata 925" required>
+        </div>
+
+        <div>
+            <label for="preco">Preço (R$)</label>
+            <input type="text" id="preco" name="preco"
+                   value="{{ produto_edit.preco|float if produto_edit and produto_edit.preco else '' }}"
+                   placeholder="Ex: 149.90" required
+                   oninput="this.value = this.value.replace(/[^0-9.,]/g, '').replace(',', '.');">
+        </div>
+
+        <div>
+            <label for="categoria">Categoria</label>
+            <select id="categoria" name="categoria" required>
+                <option value="">Selecione</option>
+                {% for cat in ['aneis','pulseiras','correntes','brincos','gargantilhas','piercings'] %}
+                    <option value="{{ cat }}" {% if produto_edit and produto_edit.categoria == cat %}selected{% endif %}>{{ cat.capitalize() }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div>
+            <label for="imagem">Imagem do Produto</label>
+            <input type="file" id="imagem" name="imagem" accept="image/*" {% if not produto_edit %}required{% endif %} onchange="previewImage(event)">
+        </div>
+
+        <div class="preview-container">
+            Preview:
+            <br>
+            <i class="fa-solid fa-magnifying-glass" id="preview-icon" style="display: {{ 'none' if produto_edit else 'inline-block' }};"></i>
+            <img id="preview" src="{{ url_for('static', filename='images/' + produto_edit.imagem) if produto_edit else '#' }}"
+                 style="display: {{ 'inline-block' if produto_edit else 'none' }};" alt="Preview do Produto">
+        </div>
+
+        <button type="submit" class="btn-submit">
+            {% if produto_edit %}
+                <i class="fa-solid fa-save"></i> Salvar Alterações
+            {% else %}
+                <i class="fa-solid fa-plus"></i> Cadastrar Produto
+            {% endif %}
+        </button>
+    </form>
+
+    <h2>Produtos Cadastrados</h2>
+    <div class="produtos-grid">
+        {% for produto in produtos %}
+        <div class="card">
+            {% set caminho = produto.imagem if 'images/' in produto.imagem else 'images/' + produto.imagem %}
+            <img src="{{ url_for('static', filename=caminho) }}" alt="{{ produto.nome }}">
+            <div class="card-info">
+                <h3>{{ produto.nome }}</h3>
+                <p><strong>ID:</strong> {{ produto.codigo }}</p>
+                <p><strong>Preço:</strong> R$ {{ '%.2f' % produto.preco|float }}</p>
+                <a href="{{ url_for('editar_produto', codigo=produto.codigo) }}" class="btn btn-edit"><i class="fa-solid fa-pen"></i> Editar</a>
+                <a href="{{ url_for('remover_produto', codigo=produto.codigo) }}" class="btn btn-delete" onclick="return confirm('Tem certeza que deseja remover este produto?')"><i class="fa-solid fa-trash"></i> Remover</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</main>
+
+<script>
+function previewImage(event) {
+    const preview = document.getElementById('preview');
+    const icon = document.getElementById('preview-icon');
+    const file = event.target.files[0];
+    if (file) {
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'inline-block';
+        icon.style.display = 'none';
+    } else {
+        preview.src = '#';
+        preview.style.display = 'none';
+        icon.style.display = 'inline-block';
+    }
+}
+</script>
+
+</body>
+</html>

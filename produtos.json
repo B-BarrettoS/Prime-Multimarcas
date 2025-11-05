@@ -1,0 +1,93 @@
+[
+    {
+        "nome": "PULSEIRA PRATA CARTIER LOVE CORACAO VERMELHO ZIRCONIA",
+        "codigo": "0067798",
+        "preco": "59.90",
+        "categoria": "pulseiras",
+        "imagem": "images/pulseiras/pulseira5.jpg"
+    },
+    {
+        "nome": "PULSEIRA PRATA CARTIER CORACAO CRAVEJADO",
+        "codigo": "0064056",
+        "preco": "115.90",
+        "categoria": "pulseiras",
+        "imagem": "images/pulseiras/pulseira4.jpg"
+    },
+    {
+        "nome": "PULSEIRA PRATA BOLAS",
+        "codigo": "0047418",
+        "preco": "214.90",
+        "categoria": "pulseiras",
+        "imagem": "images/pulseiras/pulseira3.jpg"
+    },
+    {
+        "nome": "PULSEIRA PRATA BATIDINHA INFINITO NO MEIO",
+        "codigo": "0066790",
+        "preco": "59.90",
+        "categoria": "pulseiras",
+        "imagem": "images/pulseiras/pulseira2.jpg"
+    },
+    {
+        "nome": "PULSEIRA PRATA BATIDINHA CORACAO N S APARECIDA",
+        "codigo": "0057394",
+        "preco": "69.90",
+        "categoria": "pulseiras",
+        "imagem": "images/pulseiras/pulseira1.jpg"
+    },
+    {
+        "nome": "ANEL PRATA ARO EM X COM CORACAO CRAVEJADO NO MEIO",
+        "codigo": "0055845",
+        "preco": "79.90",
+        "categoria": "aneis",
+        "imagem": "images/aneis/anel8.jpg"
+    },
+    {
+        "nome": "ANEL PRATA ALIANCA INTEIRA ZIRCONIAS",
+        "codigo": "0062588",
+        "preco": "89.90",
+        "categoria": "aneis",
+        "imagem": "images/aneis/anel7.jpg"
+    },
+    {
+        "nome": "ANEL PRATA ABERTO ORACAO PAI NOSSO CRUZ NAS PONTAS",
+        "codigo": "0064566",
+        "preco": "199.90",
+        "categoria": "aneis",
+        "imagem": "images/aneis/anel6.jpg"
+    },
+    {
+        "nome": "ANEL PRATA SOLITARIO ARO DUPLO",
+        "codigo": "0067557",
+        "preco": "69.90",
+        "categoria": "aneis",
+        "imagem": "images/aneis/anel5.jpg"
+    },
+    {
+        "nome": "ANEL PRATA COBRA TRABALHADA ZIRCONIA",
+        "codigo": "0052552",
+        "preco": "89.90",
+        "categoria": "aneis",
+        "imagem": "images/aneis/anel4.jpg"
+    },
+    {
+        "nome": "ANEL PRATA SOLITARIO ZIRCONIA CORACAO ROSA ARO TRABALHADO",
+        "codigo": "0062551",
+        "preco": "65.90",
+        "categoria": "aneis",
+        "imagem": "images/aneis/anel3.jpg"
+    },
+    {
+        "nome": "ANEL PRATA SOLITARIO ZIRCONIA CORACAO ESMERALDA ARO TRABALHADO",
+        "codigo": "0062553",
+        "preco": "65.90",
+        "categoria": "aneis",
+        "imagem": "images/aneis/anel2.jpg"
+    },
+    {
+        "nome": "ANEL PRATA SOLITARIO ZIRCONIA CORACAO ARO TRABALHADO",
+        "codigo": "0062550",
+        "preco": "64.90",
+        "categoria": "aneis",
+        "imagem": "images/aneis/anel1.jpg"
+    }
+]
