@@ -1,23 +1,44 @@
-from flask import Flask, render_template, session, request, redirect, url_for, flash, send_from_directory
-from datetime import datetime, timedelta
 import os
 import uuid
 import json
+from datetime import datetime, timedelta
+from flask import (
+    Flask, render_template, session, request, redirect,
+    url_for, flash, send_from_directory, abort
+)
 from werkzeug.utils import secure_filename
 
-app = Flask(__name__)
-app.secret_key = "uma_chave_secreta"
+# --- carregar .env opcionalmente ---
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except Exception:
+    # python-dotenv não é obrigatório — apenas útil em desenvolvimento local
+    pass
 
-# ---------- Configurações ----------
+app = Flask(__name__)
+
+# ---------- Configurações via variáveis de ambiente (seguro) ----------
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "uma_chave_secreta_local_troque_ja")
+
+USUARIO_ADMIN = os.environ.get("ADMIN_USER", "Barreto")
+SENHA_ADMIN = os.environ.get("ADMIN_PASS", "Bb@96321")
+
+# Flag para ativar/desativar admin (1 = ativado, 0 = desativado)
+ENABLE_ADMIN = os.environ.get("ENABLE_ADMIN", "1") == "1"
+
+# ---------- Arquivos e pastas ----------
 VISITAS_FILE = "visitas.txt"
-usuarios_online = {}
 PRODUTOS_FILE = "produtos.json"
 UPLOAD_FOLDER = os.path.join("static", "images")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# ---------- Função para contar visitas ----------
+# ---------- Estado em memória ----------
+usuarios_online = {}
+
+# ---------- Helpers ----------
 def incrementar_visita():
     if not os.path.exists(VISITAS_FILE):
         with open(VISITAS_FILE, "w", encoding="utf-8") as f:
@@ -25,14 +46,13 @@ def incrementar_visita():
     try:
         with open(VISITAS_FILE, "r", encoding="utf-8") as f:
             count = int(f.read().strip())
-    except:
+    except Exception:
         count = 0
     count += 1
     with open(VISITAS_FILE, "w", encoding="utf-8") as f:
         f.write(str(count))
     return count
 
-# ---------- Atualiza usuários online ----------
 @app.before_request
 def atualizar_usuarios_online():
     agora = datetime.now()
@@ -44,7 +64,6 @@ def atualizar_usuarios_online():
     usuarios_online.clear()
     usuarios_online.update(usuarios_online_copy)
 
-# ---------- Funções de produtos ----------
 def carregar_produtos():
     if os.path.exists(PRODUTOS_FILE):
         with open(PRODUTOS_FILE, "r", encoding="utf-8") as f:
@@ -59,13 +78,15 @@ def salvar_produtos(produtos):
         json.dump(produtos, f, ensure_ascii=False, indent=4)
 
 def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 def encontrar_produto_por_codigo(produtos, codigo):
     return next((p for p in produtos if p.get("codigo") == codigo), None)
 
 def excluir_arquivo_imagem(caminho_relativo):
-    """Recebe caminho relativo dentro de static, ex: 'images/categoria/arquivo.jpg'"""
+    """
+    Recebe caminho relativo dentro de static, ex: 'images/categoria/arquivo.jpg'
+    """
     if not caminho_relativo:
         return
     caminho_absoluto = os.path.join(app.root_path, "static", caminho_relativo)
@@ -75,25 +96,66 @@ def excluir_arquivo_imagem(caminho_relativo):
     except Exception as e:
         app.logger.warning(f"Não foi possível excluir arquivo {caminho_absoluto}: {e}")
 
-# ---------- Rotas ----------
-@app.route('/')
+def verificar_admin_ativado():
+    """
+    Aborta com 404 se o admin estiver desabilitado via ENABLE_ADMIN.
+    Use no início das rotas do admin (login, admin, editar, remover).
+    """
+    if not ENABLE_ADMIN:
+        abort(404)
+
+# ---------- Rotas públicas ----------
+@app.route("/")
 def home():
     visitas = incrementar_visita()
     online = len(usuarios_online)
-    return render_template('index.html', visitas=visitas, online=online)
+    return render_template("index.html", visitas=visitas, online=online)
 
-@app.route('/joias')
+@app.route("/joias")
 def joias():
-    return render_template('joias.html')
+    return render_template("joias.html")
 
-@app.route('/joias/<categoria>')
+@app.route("/joias/<categoria>")
 def joias_categoria(categoria):
     produtos = [p for p in carregar_produtos() if p.get("categoria") == categoria]
-    return render_template('categoria.html', produtos=produtos, categoria=categoria)
+    return render_template("categoria.html", produtos=produtos, categoria=categoria)
 
-# ---------- Painel Admin ----------
-@app.route('/admin', methods=["GET", "POST"])
+# ---------- Autenticação Admin ----------
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    # Se admin estiver desabilitado, escondemos também a tela de login
+    verificar_admin_ativado()
+
+    if request.method == "POST":
+        usuario = request.form.get("usuario", "")
+        senha = request.form.get("senha", "")
+        if usuario == USUARIO_ADMIN and senha == SENHA_ADMIN:
+            session["admin"] = True
+            flash("Login realizado com sucesso!", "sucesso")
+            return redirect(url_for("admin"))
+        else:
+            flash("Usuário ou senha incorretos!", "erro")
+            return redirect(url_for("login"))
+
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    # logout disponível apenas quando admin ativo (proteção redundante)
+    if not ENABLE_ADMIN:
+        return redirect(url_for("home"))
+    session.pop("admin", None)
+    flash("Logout realizado com sucesso!", "sucesso")
+    return redirect(url_for("login"))
+
+# ---------- Painel Admin (criar produto) ----------
+@app.route("/admin", methods=["GET", "POST"])
 def admin():
+    verificar_admin_ativado()
+
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+
     produtos = carregar_produtos()
 
     if request.method == "POST":
@@ -115,7 +177,6 @@ def admin():
             flash("Formato de imagem inválido!", "erro")
             return redirect(url_for("admin"))
 
-        # Usa o nome original da imagem
         filename = secure_filename(imagem_file.filename)
         caminho_rel = f"images/{categoria}/{filename}"
         caminho_abs = os.path.join(app.root_path, "static", "images", categoria, filename)
@@ -138,8 +199,13 @@ def admin():
     return render_template("admin.html", produtos=produtos)
 
 # ---------- Editar Produto ----------
-@app.route('/editar/<codigo>', methods=["GET", "POST"])
+@app.route("/editar/<codigo>", methods=["GET", "POST"])
 def editar_produto(codigo):
+    verificar_admin_ativado()
+
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+
     produtos = carregar_produtos()
     produto = encontrar_produto_por_codigo(produtos, codigo)
     if not produto:
@@ -167,6 +233,10 @@ def editar_produto(codigo):
             os.makedirs(os.path.dirname(caminho_abs), exist_ok=True)
             imagem_file.save(caminho_abs)
 
+            # tenta remover a imagem antiga (se for diferente)
+            if produto.get("imagem") and produto.get("imagem") != caminho_rel:
+                excluir_arquivo_imagem(produto.get("imagem"))
+
             produto["imagem"] = caminho_rel
 
         produto["nome"] = nome
@@ -179,8 +249,13 @@ def editar_produto(codigo):
     return render_template("editar.html", produto=produto)
 
 # ---------- Remover Produto ----------
-@app.route('/remover/<codigo>', methods=["POST", "GET"])
+@app.route("/remover/<codigo>", methods=["POST", "GET"])
 def remover_produto(codigo):
+    verificar_admin_ativado()
+
+    if not session.get("admin"):
+        return redirect(url_for("login"))
+
     produtos = carregar_produtos()
     produto = encontrar_produto_por_codigo(produtos, codigo)
     if not produto:
@@ -196,11 +271,12 @@ def remover_produto(codigo):
     return redirect(url_for("admin"))
 
 # ---------- Favicon ----------
-@app.route('/favicon.ico')
+@app.route("/favicon.ico")
 def favicon():
-    caminho = os.path.join(app.root_path, 'static', 'admin')
-    return send_from_directory(caminho, 'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    caminho = os.path.join(app.root_path, "static", "admin")
+    return send_from_directory(caminho, "favicon.ico", mimetype="image/vnd.microsoft.icon")
 
 # ---------- Execução ----------
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+if __name__ == "__main__":
+    # debug True só em desenvolvimento local
+    app.run(debug=True, host="0.0.0.0", port=5000)
