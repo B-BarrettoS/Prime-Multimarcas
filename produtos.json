@@ -1,5 +1,61 @@
 [
     {
+        "nome": "GARGANTILHA PRATA CARTIE COM CORAÇÃO E PONTOS DE ZIRCONIA",
+        "codigo": "0067324",
+        "preco": "149.90",
+        "categoria": "gargantilhas",
+        "imagem": "images/gargantilhas/gargantilha3.jpg"
+    },
+    {
+        "nome": "GARGANTILHA NYLON MADRE PEROLA CORACAO 45 CM",
+        "codigo": "0068275",
+        "preco": "49.90",
+        "categoria": "gargantilhas",
+        "imagem": "images/gargantilhas/gargantilha2.jpg"
+    },
+    {
+        "nome": "GARGANTILHA PRATA CARTIER CORACAO VAZADO ZIRCONIAS",
+        "codigo": "0065595",
+        "preco": "149.90",
+        "categoria": "gargantilhas",
+        "imagem": "images/gargantilhas/gargantilha1.jpg"
+    },
+    {
+        "nome": "CORRENTE PRATA CILINDRO TRABALHADO 40 CM",
+        "codigo": "0062296",
+        "preco": "249.90",
+        "categoria": "correntes",
+        "imagem": "images/correntes/corrente5.jpg"
+    },
+    {
+        "nome": "CORRENTE PRATA 3X1 70 CM",
+        "codigo": "0050452",
+        "preco": "299.90",
+        "categoria": "correntes",
+        "imagem": "images/correntes/corrente4.jpg"
+    },
+    {
+        "nome": "CORRENTE PRATA GRUMET 70 CM 4MM",
+        "codigo": "0050926",
+        "preco": "349.90",
+        "categoria": "correntes",
+        "imagem": "images/correntes/corrente3.jpg"
+    },
+    {
+        "nome": "CORRENTE PRATA CORDAO BAIANO 70 CM",
+        "codigo": "0052246",
+        "preco": "159.90",
+        "categoria": "correntes",
+        "imagem": "images/correntes/corrente2.jpg"
+    },
+    {
+        "nome": "CORRENTE PRATA CARTIER 60 CM",
+        "codigo": "0052258",
+        "preco": "124.90",
+        "categoria": "correntes",
+        "imagem": "images/correntes/corrente1.jpg"
+    },
+    {
         "nome": "PULSEIRA PRATA CARTIER LOVE CORACAO VERMELHO ZIRCONIA",
         "codigo": "0067798",
         "preco": "59.90",
