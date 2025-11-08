@@ -4,7 +4,7 @@ import json
 from datetime import datetime, timedelta
 from flask import (
     Flask, render_template, session, request, redirect,
-    url_for, flash, send_from_directory, abort
+    url_for, flash, send_from_directory, abort, jsonify
 )
 from werkzeug.utils import secure_filename
 
@@ -13,18 +13,16 @@ try:
     from dotenv import load_dotenv
     load_dotenv()
 except Exception:
-    # python-dotenv não é obrigatório — apenas útil em desenvolvimento local
     pass
 
 app = Flask(__name__)
 
-# ---------- Configurações via variáveis de ambiente (seguro) ----------
+# ---------- Configurações ----------
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "uma_chave_secreta_local_troque_ja")
 
 USUARIO_ADMIN = os.environ.get("ADMIN_USER", "Barreto")
 SENHA_ADMIN = os.environ.get("ADMIN_PASS", "Bb@96321")
 
-# Flag para ativar/desativar admin (1 = ativado, 0 = desativado)
 ENABLE_ADMIN = os.environ.get("ENABLE_ADMIN", "1") == "1"
 
 # ---------- Arquivos e pastas ----------
@@ -34,8 +32,6 @@ UPLOAD_FOLDER = os.path.join("static", "images")
 ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-
-# ---------- Estado em memória ----------
 usuarios_online = {}
 
 # ---------- Helpers ----------
@@ -84,9 +80,6 @@ def encontrar_produto_por_codigo(produtos, codigo):
     return next((p for p in produtos if p.get("codigo") == codigo), None)
 
 def excluir_arquivo_imagem(caminho_relativo):
-    """
-    Recebe caminho relativo dentro de static, ex: 'images/categoria/arquivo.jpg'
-    """
     if not caminho_relativo:
         return
     caminho_absoluto = os.path.join(app.root_path, "static", caminho_relativo)
@@ -97,10 +90,6 @@ def excluir_arquivo_imagem(caminho_relativo):
         app.logger.warning(f"Não foi possível excluir arquivo {caminho_absoluto}: {e}")
 
 def verificar_admin_ativado():
-    """
-    Aborta com 404 se o admin estiver desabilitado via ENABLE_ADMIN.
-    Use no início das rotas do admin (login, admin, editar, remover).
-    """
     if not ENABLE_ADMIN:
         abort(404)
 
@@ -118,14 +107,39 @@ def joias():
 @app.route("/joias/<categoria>")
 def joias_categoria(categoria):
     produtos = [p for p in carregar_produtos() if p.get("categoria") == categoria]
-    return render_template("categoria.html", produtos=produtos, categoria=categoria)
 
-# ---------- Autenticação Admin ----------
+    # --- Paginação ---
+    try:
+        page = int(request.args.get("page", 1))
+    except ValueError:
+        page = 1
+
+    por_pagina = 35 # número de produtos por página
+    total_produtos = len(produtos)
+    total_paginas = max(1, (total_produtos + por_pagina - 1) // por_pagina)
+
+    # Garante que a página pedida exista
+    if page < 1:
+        page = 1
+    elif page > total_paginas:
+        page = total_paginas
+
+    inicio = (page - 1) * por_pagina
+    fim = inicio + por_pagina
+    produtos_paginados = produtos[inicio:fim]
+
+    return render_template(
+        "categoria.html",
+        produtos=produtos_paginados,
+        categoria=categoria,
+        page=page,
+        total_paginas=total_paginas
+    )
+
+# ---------- Login ----------
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    # Se admin estiver desabilitado, escondemos também a tela de login
     verificar_admin_ativado()
-
     if request.method == "POST":
         usuario = request.form.get("usuario", "")
         senha = request.form.get("senha", "")
@@ -136,23 +150,20 @@ def login():
         else:
             flash("Usuário ou senha incorretos!", "erro")
             return redirect(url_for("login"))
-
     return render_template("login.html")
 
 @app.route("/logout")
 def logout():
-    # logout disponível apenas quando admin ativo (proteção redundante)
     if not ENABLE_ADMIN:
         return redirect(url_for("home"))
     session.pop("admin", None)
     flash("Logout realizado com sucesso!", "sucesso")
     return redirect(url_for("login"))
 
-# ---------- Painel Admin (criar produto) ----------
+# ---------- Painel Admin ----------
 @app.route("/admin", methods=["GET", "POST"])
 def admin():
     verificar_admin_ativado()
-
     if not session.get("admin"):
         return redirect(url_for("login"))
 
@@ -167,6 +178,12 @@ def admin():
 
         if not all([nome, codigo, preco, categoria]):
             flash("Todos os campos são obrigatórios!", "erro")
+            return redirect(url_for("admin"))
+
+        codigo_normalizado = codigo.strip().lower()
+        codigo_existente = any(p.get("codigo", "").strip().lower() == codigo_normalizado for p in produtos)
+        if codigo_existente:
+            flash(f"O produto com o código '{codigo}' já está cadastrado!", "erro")
             return redirect(url_for("admin"))
 
         if not imagem_file or imagem_file.filename == "":
@@ -198,11 +215,18 @@ def admin():
 
     return render_template("admin.html", produtos=produtos)
 
-# ---------- Editar Produto ----------
+# ---------- Verificar código (AJAX) ----------
+@app.route("/verificar_codigo/<codigo>", methods=["GET"])
+def verificar_codigo(codigo):
+    produtos = carregar_produtos()
+    codigo_normalizado = (codigo or "").strip().lower()
+    existe = any((p.get("codigo") or "").strip().lower() == codigo_normalizado for p in produtos)
+    return jsonify({"existe": existe})
+
+# ---------- Editar ----------
 @app.route("/editar/<codigo>", methods=["GET", "POST"])
 def editar_produto(codigo):
     verificar_admin_ativado()
-
     if not session.get("admin"):
         return redirect(url_for("login"))
 
@@ -233,7 +257,6 @@ def editar_produto(codigo):
             os.makedirs(os.path.dirname(caminho_abs), exist_ok=True)
             imagem_file.save(caminho_abs)
 
-            # tenta remover a imagem antiga (se for diferente)
             if produto.get("imagem") and produto.get("imagem") != caminho_rel:
                 excluir_arquivo_imagem(produto.get("imagem"))
 
@@ -248,11 +271,10 @@ def editar_produto(codigo):
 
     return render_template("editar.html", produto=produto)
 
-# ---------- Remover Produto ----------
+# ---------- Remover ----------
 @app.route("/remover/<codigo>", methods=["POST", "GET"])
 def remover_produto(codigo):
     verificar_admin_ativado()
-
     if not session.get("admin"):
         return redirect(url_for("login"))
 
@@ -263,7 +285,6 @@ def remover_produto(codigo):
         return redirect(url_for("admin"))
 
     excluir_arquivo_imagem(produto.get("imagem"))
-
     produtos = [p for p in produtos if p.get("codigo") != codigo]
     salvar_produtos(produtos)
 
@@ -278,5 +299,4 @@ def favicon():
 
 # ---------- Execução ----------
 if __name__ == "__main__":
-    # debug True só em desenvolvimento local
     app.run(debug=True, host="0.0.0.0", port=5000)
