@@ -7,14 +7,50 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
-        .produtos { padding: 40px 20px; text-align: center; }
-        .produtos h2 { font-size: 2em; margin-bottom: 15px; color: #333; }
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: #f8f8f8;
+        }
 
-        /* Campo de busca */
+        .topbar {
+            background: #111;
+            color: white;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 14px 0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .topbar a {
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .topbar a:hover {
+            color: #d4af37;
+        }
+
+        .produtos {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .produtos h2 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            color: #222;
+            letter-spacing: 0.5px;
+        }
+
         .search-box {
             margin-bottom: 30px;
             text-align: center;
         }
+
         .search-box input {
             width: 90%;
             max-width: 400px;
@@ -24,68 +60,172 @@
             border: 1px solid #ccc;
             outline: none;
             transition: 0.3s;
+            background: #fff url('https://cdn-icons-png.flaticon.com/512/622/622669.png') no-repeat 12px center;
+            background-size: 18px;
+            padding-left: 38px;
         }
+
         .search-box input:focus {
-            border-color: #666;
+            border-color: #999;
         }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-        .card { background: #fff; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); overflow: hidden; position: relative; transition: transform 0.3s; }
-        .card:hover { transform: scale(1.03); }
-        .card img { width: 100%; height: 240px; object-fit: cover; display: block; }
-        .card-info { padding: 15px; }
-        .card-info h3 { margin: 8px 0; color: #444; }
-        .card-info p { margin: 5px 0; font-size: 14px; color: #777; }
-        .btn-whatsapp { display: inline-block; margin-top: 8px; background-color: #25d366; color: #fff; padding: 8px 14px; border-radius: 25px; font-weight: bold; text-decoration: none; transition: 0.3s; }
-        .btn-whatsapp:hover { background-color: #1ebe5b; }
-        .topbar { background: #222; padding: 10px 0; text-align: center; }
-        .topbar a { color: #fff; margin: 0 10px; text-decoration: none; font-weight: bold; }
-        .btn-voltar { display: inline-block; margin: 25px auto; background: #444; color: #fff; padding: 10px 20px; border-radius: 25px; text-decoration: none; transition: 0.3s; }
-        .btn-voltar:hover { background: #666; }
-
-        .card-hover {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 240px;
-            background: rgba(0,0,0,0.4);
-            color: #fff;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 2em; opacity: 0;
-            transition: opacity 0.3s; cursor: pointer;
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
         }
-        .card:hover .card-hover { opacity: 1; }
 
-        .lightbox {
-            position: fixed; display: none;
-            justify-content: center; align-items: center;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); z-index: 1000;
-        }
-        .lightbox img { max-width: 90%; max-height: 90%; border-radius: 10px; }
-
-        .scroll-buttons {
-            position: fixed; bottom: 20px; right: 20px;
-            display: flex; flex-direction: column; gap: 10px; z-index: 1100;
-        }
-        .scroll-buttons button {
-            background-color: #222; color: #fff;
-            border: none; padding: 10px 14px;
-            border-radius: 8px; cursor: pointer; font-size: 14px;
+        .card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            overflow: hidden;
             transition: 0.3s;
         }
-        .scroll-buttons button:hover { background-color: #444; }
+
+        .card:hover {
+            transform: scale(1.03);
+        }
+
+        .card img {
+            width: 100%;
+            height: 240px;
+            object-fit: cover;
+            cursor: pointer;
+        }
+
+        .card-info {
+            padding: 15px;
+        }
+
+        .card-info h3 {
+            margin: 8px 0;
+            color: #333;
+            font-size: 17px;
+        }
+
+        .card-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .btn-whatsapp {
+            display: inline-block;
+            margin-top: 8px;
+            background-color: #25d366;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 25px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn-whatsapp:hover {
+            background-color: #1ebe5b;
+        }
 
         .pagination {
-            display: flex; justify-content: center; align-items: center;
-            margin: 40px 0; gap: 8px; flex-wrap: wrap;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 40px 0;
+            gap: 8px;
         }
+
         .pagination a {
-            padding: 8px 12px; background-color: #eee;
-            border-radius: 6px; text-decoration: none;
-            color: #333; font-weight: 500; transition: 0.3s;
+            padding: 8px 12px;
+            border-radius: 6px;
+            background-color: #eee;
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: 0.3s;
         }
-        .pagination a:hover { background-color: #ccc; }
-        .pagination a.active { background-color: #222; color: #fff; }
+
+        .pagination a:hover {
+            background-color: #ccc;
+        }
+
+        .pagination a.active {
+            background-color: #007bff;
+            color: #fff;
+            border: 1px solid #007bff;
+            pointer-events: none;
+            font-weight: bold;
+            box-shadow: 0 0 8px rgba(0,0,0,0.2);
+        }
+
+        .scroll-buttons {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+
+        .scroll-buttons button {
+            background-color: #111;
+            color: #fff;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+        }
+
+        .scroll-buttons button:hover {
+            background-color: #333;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #f4f4f4;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* 🔍 Modal da imagem */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            padding-top: 50px;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 10px;
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #bbb;
+        }
     </style>
 </head>
 <body>
@@ -100,26 +240,22 @@
     <section class="produtos">
         <h2>{{ categoria|capitalize }}</h2>
 
-        <!-- Campo de busca -->
         <div class="search-box">
-            <input type="text" id="searchInput" placeholder="🔍 Buscar por nome ou código..." onkeyup="filtrarProdutos()">
+            <input type="text" id="searchInput" placeholder="Buscar por nome ou código..." onkeyup="filtrarProdutos()">
         </div>
 
         {% if produtos %}
         <div class="grid" id="produtosGrid">
             {% for produto in produtos %}
             <div class="card" data-nome="{{ produto.nome|lower }}" data-codigo="{{ produto.codigo|lower }}">
-                <img src="{{ url_for('static', filename=produto.imagem) }}" alt="{{ produto.nome }}">
-                <div class="card-hover" onclick="openLightbox('{{ url_for('static', filename=produto.imagem) }}')">
-                    <i class="fas fa-search"></i>
-                </div>
+                <img src="{{ url_for('static', filename=produto.imagem) }}" alt="{{ produto.nome }}" onclick="abrirImagem(this)">
                 <div class="card-info">
                     <h3>{{ produto.nome }}</h3>
                     <p><strong>Código:</strong> {{ produto.codigo }}</p>
-                    <p><strong>Preço:</strong> R$ {{ produto.preco }}</p>
+                    <p><strong>Preço:</strong> R$ {{ "%.2f"|format(produto.preco) }}</p>
                     <a class="btn-whatsapp" target="_blank"
-                       href="https://wa.me/5511992314981?text=Olá!%20Gostei%20do%20{{ produto.nome }}%20(código%20{{ produto.codigo }})%20que%20vi%20no%20site.">
-                        <i class="fab fa-whatsapp"></i> Ver Disponibilidade
+                        href="https://wa.me/5511992314981?text=Olá!%20Gostei%20do%20{{ produto.nome }}%20(código%20{{ produto.codigo }})%20que%20vi%20no%20site.">
+                        <i class="fab fa-whatsapp"></i> Comprar
                     </a>
                 </div>
             </div>
@@ -135,49 +271,54 @@
         {% endif %}
 
         {% else %}
-        <p>Nenhum produto cadastrado nesta categoria ainda.</p>
+        <p>Nenhum produto encontrado.</p>
         {% endif %}
-
-        <a href="{{ url_for('joias') }}" class="btn-voltar">← Voltar</a>
     </section>
-
-    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
-        <img id="lightbox-img" src="" alt="Imagem Ampliada">
-    </div>
 
     <div class="scroll-buttons">
         <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})">⬆ Topo</button>
         <button onclick="window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})">⬇ Final</button>
     </div>
 
-    <footer style="text-align:center; padding:20px; background:#f4f4f4; margin-top:40px;">
+    <footer>
         <p>© 2025 Prime Multimarcas - Todos os direitos reservados.</p>
     </footer>
 
-    <script>
-        function openLightbox(src) {
-            document.getElementById('lightbox-img').src = src;
-            document.getElementById('lightbox').style.display = 'flex';
-        }
-        function closeLightbox() {
-            document.getElementById('lightbox').style.display = 'none';
-        }
+    <!-- Modal de imagem -->
+    <div id="imagemModal" class="modal">
+        <span class="close" onclick="fecharImagem()">&times;</span>
+        <img class="modal-content" id="imagemAmpliada">
+    </div>
 
-        // Filtro de produtos
+    <script>
         function filtrarProdutos() {
             const filtro = document.getElementById('searchInput').value.toLowerCase();
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
-                const nome = card.getAttribute('data-nome');
-                const codigo = card.getAttribute('data-codigo');
-                if (nome.includes(filtro) || codigo.includes(filtro)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
+                const nome = card.dataset.nome;
+                const codigo = card.dataset.codigo;
+                card.style.display = (nome.includes(filtro) || codigo.includes(filtro)) ? '' : 'none';
             });
         }
-    </script>
 
+        // Funções para abrir e fechar imagem
+        function abrirImagem(img) {
+            const modal = document.getElementById("imagemModal");
+            const imgAmpliada = document.getElementById("imagemAmpliada");
+            modal.style.display = "block";
+            imgAmpliada.src = img.src;
+        }
+
+        function fecharImagem() {
+            document.getElementById("imagemModal").style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById("imagemModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
 </body>
 </html>

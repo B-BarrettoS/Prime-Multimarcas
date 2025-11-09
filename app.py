@@ -1,302 +1,231 @@
 import os
-import uuid
 import json
-from datetime import datetime, timedelta
+import uuid
 from flask import (
-    Flask, render_template, session, request, redirect,
-    url_for, flash, send_from_directory, abort, jsonify
+    Flask, render_template, request, redirect, url_for,
+    jsonify, flash, session
 )
 from werkzeug.utils import secure_filename
 
-# --- carregar .env opcionalmente ---
-try:
-    from dotenv import load_dotenv
-    load_dotenv()
-except Exception:
-    pass
-
 app = Flask(__name__)
+app.secret_key = "chave-secreta-prime-multimarcas"
 
-# ---------- Configurações ----------
-app.secret_key = os.environ.get("FLASK_SECRET_KEY", "uma_chave_secreta_local_troque_ja")
-
-USUARIO_ADMIN = os.environ.get("ADMIN_USER", "Barreto")
-SENHA_ADMIN = os.environ.get("ADMIN_PASS", "Bb@96321")
-
-ENABLE_ADMIN = os.environ.get("ENABLE_ADMIN", "1") == "1"
-
-# ---------- Arquivos e pastas ----------
-VISITAS_FILE = "visitas.txt"
-PRODUTOS_FILE = "produtos.json"
-UPLOAD_FOLDER = os.path.join("static", "images")
-ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
-
+# Caminhos
+ARQUIVO_PRODUTOS = 'produtos.json'
+UPLOAD_FOLDER = 'static/images/piercings'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-usuarios_online = {}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# ---------- Helpers ----------
-def incrementar_visita():
-    if not os.path.exists(VISITAS_FILE):
-        with open(VISITAS_FILE, "w", encoding="utf-8") as f:
-            f.write("0")
-    try:
-        with open(VISITAS_FILE, "r", encoding="utf-8") as f:
-            count = int(f.read().strip())
-    except Exception:
-        count = 0
-    count += 1
-    with open(VISITAS_FILE, "w", encoding="utf-8") as f:
-        f.write(str(count))
-    return count
+# ---------- CONTADOR DE VISITAS ----------
+visitas_total = 0
+usuarios_online = set()
+
 
 @app.before_request
-def atualizar_usuarios_online():
-    agora = datetime.now()
-    if "user_id" not in session:
-        session["user_id"] = str(uuid.uuid4())
-    usuarios_online[session["user_id"]] = agora
-    timeout = timedelta(minutes=5)
-    usuarios_online_copy = {u: t for u, t in usuarios_online.items() if agora - t <= timeout}
-    usuarios_online.clear()
-    usuarios_online.update(usuarios_online_copy)
+def contar_visitas():
+    global visitas_total
+    user_id = session.get('user_id')
+    if not user_id:
+        session['user_id'] = os.urandom(8).hex()
+        visitas_total += 1
+    usuarios_online.add(session['user_id'])
+
+# ---------- FUNÇÕES AUXILIARES ----------
+
 
 def carregar_produtos():
-    if os.path.exists(PRODUTOS_FILE):
-        with open(PRODUTOS_FILE, "r", encoding="utf-8") as f:
-            try:
-                return json.load(f)
-            except json.JSONDecodeError:
-                return []
-    return []
+    if not os.path.exists(ARQUIVO_PRODUTOS):
+        return []
+    with open(ARQUIVO_PRODUTOS, 'r', encoding='utf-8') as f:
+        try:
+            produtos = json.load(f)
+            # Garantir que preço seja float
+            for p in produtos:
+                p['preco'] = float(p['preco'])
+            return produtos
+        except json.JSONDecodeError:
+            return []
+
 
 def salvar_produtos(produtos):
-    with open(PRODUTOS_FILE, "w", encoding="utf-8") as f:
+    with open(ARQUIVO_PRODUTOS, 'w', encoding='utf-8') as f:
         json.dump(produtos, f, ensure_ascii=False, indent=4)
 
-def allowed_file(filename):
-    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
+# ---------- LOGIN ----------
 
-def encontrar_produto_por_codigo(produtos, codigo):
-    return next((p for p in produtos if p.get("codigo") == codigo), None)
 
-def excluir_arquivo_imagem(caminho_relativo):
-    if not caminho_relativo:
-        return
-    caminho_absoluto = os.path.join(app.root_path, "static", caminho_relativo)
-    try:
-        if os.path.exists(caminho_absoluto):
-            os.remove(caminho_absoluto)
-    except Exception as e:
-        app.logger.warning(f"Não foi possível excluir arquivo {caminho_absoluto}: {e}")
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        usuario = request.form.get('usuario')
+        senha = request.form.get('senha')
 
-def verificar_admin_ativado():
-    if not ENABLE_ADMIN:
-        abort(404)
+        if usuario == "Barreto" and senha == "Bb@96321":
+            session['logado'] = True
+            flash("Login realizado com sucesso!", "sucesso")
+            return redirect(url_for('admin'))
+        else:
+            flash("Usuário ou senha incorretos.", "erro")
 
-# ---------- Rotas públicas ----------
-@app.route("/")
+    return render_template('login.html')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('logado', None)
+    flash("Você saiu do painel.", "sucesso")
+    return redirect(url_for('login'))
+
+# ---------- ROTAS PRINCIPAIS ----------
+
+
+@app.route('/')
 def home():
-    visitas = incrementar_visita()
+    global visitas_total, usuarios_online
     online = len(usuarios_online)
-    return render_template("index.html", visitas=visitas, online=online)
+    return render_template('index.html', visitas=visitas_total, online=online)
 
-@app.route("/joias")
+
+@app.route('/joias')
 def joias():
-    return render_template("joias.html")
+    produtos = carregar_produtos()
+    categorias = sorted(set(p['categoria'] for p in produtos))
+    return render_template('joias.html', categorias=categorias)
 
-@app.route("/joias/<categoria>")
+
+@app.route('/joias/<categoria>')
 def joias_categoria(categoria):
-    produtos = [p for p in carregar_produtos() if p.get("categoria") == categoria]
+    produtos_por_pagina = 35
+    page = int(request.args.get('page', 1))
+    query = request.args.get('q', '').lower()
 
-    # --- Paginação ---
-    try:
-        page = int(request.args.get("page", 1))
-    except ValueError:
-        page = 1
+    produtos = carregar_produtos()
+    produtos_categoria = [
+        p for p in produtos if p.get('categoria') == categoria]
 
-    por_pagina = 35 # número de produtos por página
-    total_produtos = len(produtos)
-    total_paginas = max(1, (total_produtos + por_pagina - 1) // por_pagina)
+    # Não ordena por código, mantém sequência do cadastro
+    if query:
+        produtos_categoria = [
+            p for p in produtos_categoria
+            if query in p.get('nome', '').lower() or query in p.get('codigo', '').lower()
+        ]
 
-    # Garante que a página pedida exista
-    if page < 1:
-        page = 1
-    elif page > total_paginas:
-        page = total_paginas
+    total_produtos = len(produtos_categoria)
+    total_paginas = (total_produtos + produtos_por_pagina -
+                     1) // produtos_por_pagina
 
-    inicio = (page - 1) * por_pagina
-    fim = inicio + por_pagina
-    produtos_paginados = produtos[inicio:fim]
+    inicio = (page - 1) * produtos_por_pagina
+    fim = inicio + produtos_por_pagina
+    produtos_pagina = produtos_categoria[inicio:fim]
 
     return render_template(
-        "categoria.html",
-        produtos=produtos_paginados,
+        'categoria.html',
         categoria=categoria,
-        page=page,
+        produtos=produtos_pagina,
+        pagina=page,
         total_paginas=total_paginas
     )
 
-# ---------- Login ----------
-@app.route("/login", methods=["GET", "POST"])
-def login():
-    verificar_admin_ativado()
-    if request.method == "POST":
-        usuario = request.form.get("usuario", "")
-        senha = request.form.get("senha", "")
-        if usuario == USUARIO_ADMIN and senha == SENHA_ADMIN:
-            session["admin"] = True
-            flash("Login realizado com sucesso!", "sucesso")
-            return redirect(url_for("admin"))
-        else:
-            flash("Usuário ou senha incorretos!", "erro")
-            return redirect(url_for("login"))
-    return render_template("login.html")
+# ---------- ROTAS ADMIN ----------
 
-@app.route("/logout")
-def logout():
-    if not ENABLE_ADMIN:
-        return redirect(url_for("home"))
-    session.pop("admin", None)
-    flash("Logout realizado com sucesso!", "sucesso")
-    return redirect(url_for("login"))
 
-# ---------- Painel Admin ----------
-@app.route("/admin", methods=["GET", "POST"])
+@app.route('/admin', methods=['GET', 'POST'])
 def admin():
-    verificar_admin_ativado()
-    if not session.get("admin"):
-        return redirect(url_for("login"))
+    if not session.get('logado'):
+        return redirect(url_for('login'))
 
     produtos = carregar_produtos()
+    produto_edit = None
+    mensagem = None
+    sucesso = True
 
-    if request.method == "POST":
-        nome = request.form.get("nome")
-        codigo = request.form.get("codigo")
-        preco = request.form.get("preco")
-        categoria = request.form.get("categoria")
-        imagem_file = request.files.get("imagem")
+    if request.method == 'POST':
+        modo = request.form.get('modo')
+        codigo = request.form.get('codigo').strip()
+        nome = request.form.get('nome').strip()
+        preco = request.form.get('preco').strip().replace(',', '.')
+        categoria = request.form.get('categoria').strip()
+        imagem = request.files.get('imagem')
 
-        if not all([nome, codigo, preco, categoria]):
-            flash("Todos os campos são obrigatórios!", "erro")
-            return redirect(url_for("admin"))
+        if not codigo or not nome or not preco or not categoria:
+            mensagem = "Preencha todos os campos obrigatórios."
+            sucesso = False
+        else:
+            if modo == 'novo':
+                if any(p['codigo'] == codigo for p in produtos):
+                    mensagem = "Produto já cadastrado!"
+                    sucesso = False
+                else:
+                    filename = "sem-imagem.jpg"
+                    if imagem and imagem.filename:
+                        ext = imagem.filename.rsplit('.', 1)[1].lower()
+                        filename = f"{codigo}.{ext}"  # Mantendo nome do código
+                        imagem.save(os.path.join(UPLOAD_FOLDER, filename))
 
-        codigo_normalizado = codigo.strip().lower()
-        codigo_existente = any(p.get("codigo", "").strip().lower() == codigo_normalizado for p in produtos)
-        if codigo_existente:
-            flash(f"O produto com o código '{codigo}' já está cadastrado!", "erro")
-            return redirect(url_for("admin"))
+                    novo = {
+                        "codigo": codigo,
+                        "nome": nome,
+                        "preco": float(preco),
+                        "categoria": categoria,
+                        "imagem": f"images/piercings/{filename}"
+                    }
 
-        if not imagem_file or imagem_file.filename == "":
-            flash("Imagem é obrigatória!", "erro")
-            return redirect(url_for("admin"))
+                    # Adiciona no topo
+                    produtos.insert(0, novo)
+                    salvar_produtos(produtos)
+                    mensagem = "Produto cadastrado com sucesso!"
+                    sucesso = True
 
-        if not allowed_file(imagem_file.filename):
-            flash("Formato de imagem inválido!", "erro")
-            return redirect(url_for("admin"))
+            elif modo == 'editar':
+                codigo_original = request.form.get('codigo_original')
+                for i, p in enumerate(produtos):
+                    if p['codigo'] == codigo_original:
+                        produtos[i]['codigo'] = codigo
+                        produtos[i]['nome'] = nome
+                        produtos[i]['preco'] = float(preco)
+                        produtos[i]['categoria'] = categoria
+                        if imagem and imagem.filename:
+                            ext = imagem.filename.rsplit('.', 1)[1].lower()
+                            filename = f"{codigo}.{ext}"
+                            imagem.save(os.path.join(UPLOAD_FOLDER, filename))
+                            produtos[i]['imagem'] = f"piercings/{filename}"
+                        salvar_produtos(produtos)
+                        mensagem = "Produto atualizado com sucesso!"
+                        sucesso = True
+                        break
 
-        filename = secure_filename(imagem_file.filename)
-        caminho_rel = f"images/{categoria}/{filename}"
-        caminho_abs = os.path.join(app.root_path, "static", "images", categoria, filename)
-        os.makedirs(os.path.dirname(caminho_abs), exist_ok=True)
-        imagem_file.save(caminho_abs)
+    return render_template('admin.html', produtos=carregar_produtos(), produto_edit=produto_edit, mensagem=mensagem, sucesso=sucesso)
 
-        novo_produto = {
-            "nome": nome,
-            "codigo": codigo,
-            "preco": preco,
-            "categoria": categoria,
-            "imagem": caminho_rel
-        }
-        produtos.insert(0, novo_produto)
-        salvar_produtos(produtos)
 
-        flash(f"Produto '{nome}' adicionado com sucesso!", "sucesso")
-        return redirect(url_for("admin"))
+@app.route('/editar/<codigo>')
+def editar_produto(codigo):
+    if not session.get('logado'):
+        return redirect(url_for('login'))
 
-    return render_template("admin.html", produtos=produtos)
+    produtos = carregar_produtos()
+    produto = next((p for p in produtos if p['codigo'] == codigo), None)
+    return render_template('admin.html', produtos=produtos, produto_edit=produto)
 
-# ---------- Verificar código (AJAX) ----------
-@app.route("/verificar_codigo/<codigo>", methods=["GET"])
+
+@app.route('/remover/<codigo>')
+def remover_produto(codigo):
+    if not session.get('logado'):
+        return redirect(url_for('login'))
+
+    produtos = carregar_produtos()
+    produtos = [p for p in produtos if p['codigo'] != codigo]
+    salvar_produtos(produtos)
+    flash("Produto removido com sucesso!", "sucesso")
+    return redirect(url_for('admin'))
+
+
+@app.route('/verificar_codigo/<codigo>')
 def verificar_codigo(codigo):
     produtos = carregar_produtos()
-    codigo_normalizado = (codigo or "").strip().lower()
-    existe = any((p.get("codigo") or "").strip().lower() == codigo_normalizado for p in produtos)
-    return jsonify({"existe": existe})
+    existe = any(p['codigo'].lower() == codigo.lower() for p in produtos)
+    return jsonify({'existe': existe})
 
-# ---------- Editar ----------
-@app.route("/editar/<codigo>", methods=["GET", "POST"])
-def editar_produto(codigo):
-    verificar_admin_ativado()
-    if not session.get("admin"):
-        return redirect(url_for("login"))
 
-    produtos = carregar_produtos()
-    produto = encontrar_produto_por_codigo(produtos, codigo)
-    if not produto:
-        flash("Produto não encontrado!", "erro")
-        return redirect(url_for("admin"))
-
-    if request.method == "POST":
-        nome = request.form.get("nome")
-        preco = request.form.get("preco")
-        categoria = request.form.get("categoria")
-        imagem_file = request.files.get("imagem")
-
-        if not all([nome, preco, categoria]):
-            flash("Nome, preço e categoria são obrigatórios!", "erro")
-            return redirect(url_for("editar_produto", codigo=codigo))
-
-        if imagem_file and imagem_file.filename != "":
-            if not allowed_file(imagem_file.filename):
-                flash("Formato de imagem inválido!", "erro")
-                return redirect(url_for("editar_produto", codigo=codigo))
-
-            filename = secure_filename(imagem_file.filename)
-            caminho_rel = f"images/{categoria}/{filename}"
-            caminho_abs = os.path.join(app.root_path, "static", "images", categoria, filename)
-            os.makedirs(os.path.dirname(caminho_abs), exist_ok=True)
-            imagem_file.save(caminho_abs)
-
-            if produto.get("imagem") and produto.get("imagem") != caminho_rel:
-                excluir_arquivo_imagem(produto.get("imagem"))
-
-            produto["imagem"] = caminho_rel
-
-        produto["nome"] = nome
-        produto["preco"] = preco
-        produto["categoria"] = categoria
-        salvar_produtos(produtos)
-        flash("Produto atualizado com sucesso!", "sucesso")
-        return redirect(url_for("admin"))
-
-    return render_template("editar.html", produto=produto)
-
-# ---------- Remover ----------
-@app.route("/remover/<codigo>", methods=["POST", "GET"])
-def remover_produto(codigo):
-    verificar_admin_ativado()
-    if not session.get("admin"):
-        return redirect(url_for("login"))
-
-    produtos = carregar_produtos()
-    produto = encontrar_produto_por_codigo(produtos, codigo)
-    if not produto:
-        flash("Produto não encontrado!", "erro")
-        return redirect(url_for("admin"))
-
-    excluir_arquivo_imagem(produto.get("imagem"))
-    produtos = [p for p in produtos if p.get("codigo") != codigo]
-    salvar_produtos(produtos)
-
-    flash("Produto removido com sucesso!", "sucesso")
-    return redirect(url_for("admin"))
-
-# ---------- Favicon ----------
-@app.route("/favicon.ico")
-def favicon():
-    caminho = os.path.join(app.root_path, "static", "admin")
-    return send_from_directory(caminho, "favicon.ico", mimetype="image/vnd.microsoft.icon")
-
-# ---------- Execução ----------
-if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+# ---------- EXECUÇÃO ----------
+if __name__ == '__main__':
+    app.run(debug=True)

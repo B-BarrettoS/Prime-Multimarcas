@@ -1,393 +1,568 @@
 [
     {
+        "codigo": "0065830",
+        "nome": "PIERCING PRATA COM ACO UMBIGO LACO ZIRCONIAS E GOTA PENDURADA",
+        "preco": 69.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/0065830.jpg"
+    },
+    {
+        "codigo": "0055452",
+        "nome": "PIERCING PRATA DUAS ARGOLAS LIGADAS POR UMA CORRENTE UM PINGENTE DE CORACAO ZIRC",
+        "preco": 89.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/0055452.jpg"
+    },
+    {
+        "codigo": "0057193",
+        "nome": "PIERCING PRATA COM ACO CONCH INFINITO VAZADO MEIO CRAVEJADO",
+        "preco": 59.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/0057193.jpg"
+    },
+    {
+        "codigo": "0055997",
+        "nome": "PIERCING PRATA COM ACO MEIO ARO TRABALHADO ZIRCONIAS",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/0055997.jpg"
+    },
+    {
+        "codigo": "0058285",
+        "nome": "PIERCING PRATA COM ACO MAO DE HAMSA CRAVEJADA ZIRCONIAS",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/0058285.jpg"
+    },
+    {
+        "codigo": "0057647",
+        "nome": "PIERCING PRATA COM ACO MEIO ARO BOLINHAS ZIRCONIAS",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/0057647.jpg"
+    },
+    {
+        "codigo": "0056635",
+        "nome": "PIERCING PRATA COM ACO LUA CRAVEJADA ZIRCONIAS",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "piercings/0056635.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO LIBELULA ZIRCONIAS",
+        "codigo": "0066010",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing53.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO INFINITO LISO E ZIRCONIAS",
+        "codigo": "0056545",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing52.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO GOTA ZIRCONIAS",
+        "codigo": "0067190",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing51.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO GALHO COM FOLHAS ZIRCONIAS BOLINHA",
+        "codigo": "0063503",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing50.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO FOLHA ZIRCONIAS",
+        "codigo": "0063373",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing49.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO FOLHA DIREITA BOLINHA",
+        "codigo": "0048920",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing48.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO FLORZINHA ZIRCONIAS",
+        "codigo": "0065202",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing47.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO FLORZINHA MIOLO ZIRCONIAS",
+        "codigo": "0067196",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing46.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO ESTRELA ZIRCONIAS BOLINHA",
+        "codigo": "0063082",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing45.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO ESTRELA VAZADA ZIRCONIAS UMBIGO",
+        "codigo": "0060912",
+        "preco": 44.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing44.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO ESTRELA VAZADA ORELHA",
+        "codigo": "0062632",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing43.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO ESTRELA OITO PONTAS ZIRCONIAS",
+        "codigo": "0063808",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing42.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO CRUZ ZIRCONIAS",
+        "codigo": "0058811",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing41.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO CORACAO ZIRCONIAS VAZADO BOLINHA UMA ZIRCONIA",
+        "codigo": "0066155",
+        "preco": 39.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing40.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO CORACAO PEQUENO ZIRCONIAS BOLINHA",
+        "codigo": "0067189",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing39.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO CORACAO ZIRCONIA",
+        "codigo": "0067194",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing38.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO COBRINHA LISA",
+        "codigo": "0059832",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing37.jpg"
+    },
+    {
+        "nome": "PIERCING PRATA COM ACO COBRA ZIRCONIA BOLINHA LADO DIREITO",
+        "codigo": "0063088",
+        "preco": 29.9,
+        "categoria": "piercings",
+        "imagem": "images/piercings/piercing36.jpg"
+    },
+    {
         "nome": "PIERCING PRATA COM ACO COBRINHA OLHO VERDE ZIRCONIAS BOLINHA",
         "codigo": "0063066",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing28.jpg"
     },
     {
         "nome": "PIERCING PRATA COM ACO BOLINHA COM ZIRCONIA LADO ESQUERDO",
         "codigo": "0063062",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing34.jpg"
     },
     {
         "nome": "PIERCING PRATA COM ACO BOLINHA COM ZIRCONIA LADO DIREITO",
         "codigo": "0063064",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing35.jpg"
     },
     {
         "nome": "PIERCING PRATA COBRA",
         "codigo": "0049775",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing15.jpg"
     },
     {
         "nome": "PIERCING PRATA BORBOLETA ZIRCONIAS",
         "codigo": "0050958",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing33.jpg"
     },
     {
         "nome": "PIERCING PRATA BOLA TRABALHADA VAZADA",
         "codigo": "0058678",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing32.jpg"
     },
     {
         "nome": "PIERCING PRATA ARGOLA ZIRCONIAS GORA PENDURADA",
         "codigo": "0067197",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing31.jpg"
     },
     {
         "nome": "PIERCING PRATA ARGOLA ZIRCONIA REDONDA",
         "codigo": "0047898",
-        "preco": "19.90",
+        "preco": 19.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing30.jpg"
     },
     {
         "nome": "PIERCING PRATA ARGOLA TRABALHADA",
         "codigo": "0063407",
-        "preco": "19.90",
+        "preco": 19.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing29.jpg"
     },
     {
         "nome": "PIERCING PRATA ARGOLA TORCIDA",
         "codigo": "0065429",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing27.jpg"
     },
     {
         "nome": "PIERCING PRATA ARGOLA NAUTICA",
         "codigo": "0053917",
-        "preco": "19.00",
+        "preco": 19.0,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing26.jpg"
     },
     {
         "nome": "PIERCING PRATA ARGOLA LISA",
         "codigo": "0050964",
-        "preco": "19.00",
+        "preco": 19.0,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing25.jpg"
     },
     {
         "nome": "PIERCING PRATA ARGOLA ZIRCONIAS",
         "codigo": "0057513",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing24.jpg"
     },
     {
         "nome": "PIERCING PRATA CRUZ ZIRCONIAS",
         "codigo": "0066445",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing23.jpg"
     },
     {
         "nome": "PIERCING PRATA COM ACO ZIRCONIA 2MM",
         "codigo": "0059279",
-        "preco": "24.90",
+        "preco": 24.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing22.jpg"
     },
     {
         "nome": "PIERCING PRATA COM ACO QUADRADINHO ZIRCONIAS",
         "codigo": "0067193",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing21.jpg"
     },
     {
         "nome": "PIERCING PRATA COM ACO FLOR UMBIGO ZIRCONIAS CRISTAL",
         "codigo": "0066156",
-        "preco": "34.90",
+        "preco": 34.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing20.jpg"
     },
     {
         "nome": "PIERCING PRATA COM ACO CRUZ ZIRCONIAS TERMINAL BOLINHA",
         "codigo": "0063851",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing19.jpg"
     },
     {
         "nome": "PIERCING PRATA COM ACO CORACAO VAZADO ZIRCONIAS MAMILO",
         "codigo": "0063368",
-        "preco": "59.90",
+        "preco": 59.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing18.jpg"
     },
     {
         "nome": "PIERCING PRATA COM ACO CORACAO CRAVEJADO ZIRCONIAS BOLINHA",
         "codigo": "0063067",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing17.jpg"
     },
     {
         "nome": "PIERCING PRATA COM ACO COBRA OLHOS VERDE ZIRONIAS UMBIGO",
         "codigo": "0062609",
-        "preco": "64.90",
+        "preco": 64.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing16.jpg"
     },
     {
         "nome": "PIERCING PRATA COM ACO BORBOLETA ZIRCONIAS BOLINHA",
         "codigo": "0067312",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing14.jpg"
     },
     {
         "nome": "PIERCING PRATA ARGOLA FINA ZIRCONIAS BAGUETES",
         "codigo": "0066016",
-        "preco": "34.90",
+        "preco": 34.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing13.jpg"
     },
     {
         "nome": "PIERCING PRATA ARGOLA DUAS ZIRCONIAS DE GOTA CRISTAL",
         "codigo": "0067139",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing12.jpg"
     },
     {
         "nome": "PIERCING PRATA ARGOLA DOIS AROS ZIRCONIAS",
         "codigo": "0066158",
-        "preco": "39.90",
+        "preco": 39.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing11.jpg"
     },
     {
         "nome": "PIERCING PRATA ARGOLA CRAVEJADA ZIRCONIAS",
         "codigo": "0057198",
-        "preco": "34.90",
+        "preco": 34.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing10.jpg"
     },
     {
         "nome": "PIERCING PRATA ARGOLA CRAVEJADA ZIRCONIA COM CLICK",
         "codigo": "0064265",
-        "preco": "39.90",
+        "preco": 39.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing9.jpg"
     },
     {
         "nome": "PIERCING PRATA ARGOLA COM MEIA ARGOLA CRAVEJADA ZIRCONIAS",
         "codigo": "0056628",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing8.jpg"
     },
     {
         "nome": "PIERCING PRATA ARCOS TRABALHADOS",
         "codigo": "0049780",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing7.jpg"
     },
     {
         "nome": "PIERCING PRATA 6 PONTOS ZIRCONIAS",
         "codigo": "0062751",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing6.jpg"
     },
     {
         "nome": "PIERCING PRATA 4 ZIRCONIAS CORACAO PENDURADO",
         "codigo": "0061675",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing5.jpg"
     },
     {
         "nome": "PIERCING ACO COM PRATA PARA CONCH COROA ZIRCONIAS",
         "codigo": "0053599",
-        "preco": "64.90",
+        "preco": 64.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing4.jpg"
     },
     {
         "nome": "PIERCING AÇO COM PRATA FLOR ZIRCONIAS",
         "codigo": "0064278",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing3.jpg"
     },
     {
         "nome": "PIERCING ACO COM PRATA COROINHA ZIRCONIAS",
         "codigo": "0053598",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing2.jpg"
     },
     {
         "nome": "PIERCING ACO COM PRATA CORACAO ZIRCONIAS BOLINHA",
         "codigo": "0053745",
-        "preco": "29.90",
+        "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing1.jpg"
     },
     {
         "nome": "GARGANTILHA PRATA CARTIE COM CORAÇÃO E PONTOS DE ZIRCONIA",
         "codigo": "0067324",
-        "preco": "149.90",
+        "preco": 149.9,
         "categoria": "gargantilhas",
         "imagem": "images/gargantilhas/gargantilha3.jpg"
     },
     {
         "nome": "GARGANTILHA NYLON MADRE PEROLA CORACAO 45 CM",
         "codigo": "0068275",
-        "preco": "49.90",
+        "preco": 49.9,
         "categoria": "gargantilhas",
         "imagem": "images/gargantilhas/gargantilha2.jpg"
     },
     {
         "nome": "GARGANTILHA PRATA CARTIER CORACAO VAZADO ZIRCONIAS",
         "codigo": "0065595",
-        "preco": "149.90",
+        "preco": 149.9,
         "categoria": "gargantilhas",
         "imagem": "images/gargantilhas/gargantilha1.jpg"
     },
     {
         "nome": "CORRENTE PRATA CILINDRO TRABALHADO 40 CM",
         "codigo": "0062296",
-        "preco": "249.90",
+        "preco": 249.9,
         "categoria": "correntes",
         "imagem": "images/correntes/corrente5.jpg"
     },
     {
         "nome": "CORRENTE PRATA 3X1 70 CM",
         "codigo": "0050452",
-        "preco": "299.90",
+        "preco": 299.9,
         "categoria": "correntes",
         "imagem": "images/correntes/corrente4.jpg"
     },
     {
         "nome": "CORRENTE PRATA GRUMET 70 CM 4MM",
         "codigo": "0050926",
-        "preco": "349.90",
+        "preco": 349.9,
         "categoria": "correntes",
         "imagem": "images/correntes/corrente3.jpg"
     },
     {
         "nome": "CORRENTE PRATA CORDAO BAIANO 70 CM",
         "codigo": "0052246",
-        "preco": "159.90",
+        "preco": 159.9,
         "categoria": "correntes",
         "imagem": "images/correntes/corrente2.jpg"
     },
     {
         "nome": "CORRENTE PRATA CARTIER 60 CM",
         "codigo": "0052258",
-        "preco": "124.90",
+        "preco": 124.9,
         "categoria": "correntes",
         "imagem": "images/correntes/corrente1.jpg"
     },
     {
         "nome": "PULSEIRA PRATA CARTIER LOVE CORACAO VERMELHO ZIRCONIA",
         "codigo": "0067798",
-        "preco": "59.90",
+        "preco": 59.9,
         "categoria": "pulseiras",
         "imagem": "images/pulseiras/pulseira5.jpg"
     },
     {
         "nome": "PULSEIRA PRATA CARTIER CORACAO CRAVEJADO",
         "codigo": "0064056",
-        "preco": "115.90",
+        "preco": 115.9,
         "categoria": "pulseiras",
         "imagem": "images/pulseiras/pulseira4.jpg"
     },
     {
         "nome": "PULSEIRA PRATA BOLAS",
         "codigo": "0047418",
-        "preco": "214.90",
+        "preco": 214.9,
         "categoria": "pulseiras",
         "imagem": "images/pulseiras/pulseira3.jpg"
     },
     {
         "nome": "PULSEIRA PRATA BATIDINHA INFINITO NO MEIO",
         "codigo": "0066790",
-        "preco": "59.90",
+        "preco": 59.9,
         "categoria": "pulseiras",
         "imagem": "images/pulseiras/pulseira2.jpg"
     },
     {
         "nome": "PULSEIRA PRATA BATIDINHA CORACAO N S APARECIDA",
         "codigo": "0057394",
-        "preco": "69.90",
+        "preco": 69.9,
         "categoria": "pulseiras",
         "imagem": "images/pulseiras/pulseira1.jpg"
     },
     {
         "nome": "ANEL PRATA ARO EM X COM CORACAO CRAVEJADO NO MEIO",
         "codigo": "0055845",
-        "preco": "79.90",
+        "preco": 79.9,
         "categoria": "aneis",
         "imagem": "images/aneis/anel8.jpg"
     },
     {
         "nome": "ANEL PRATA ALIANCA INTEIRA ZIRCONIAS",
         "codigo": "0062588",
-        "preco": "89.90",
+        "preco": 89.9,
         "categoria": "aneis",
         "imagem": "images/aneis/anel7.jpg"
     },
     {
         "nome": "ANEL PRATA ABERTO ORACAO PAI NOSSO CRUZ NAS PONTAS",
         "codigo": "0064566",
-        "preco": "199.90",
+        "preco": 199.9,
         "categoria": "aneis",
         "imagem": "images/aneis/anel6.jpg"
     },
     {
         "nome": "ANEL PRATA SOLITARIO ARO DUPLO",
         "codigo": "0067557",
-        "preco": "69.90",
+        "preco": 69.9,
         "categoria": "aneis",
         "imagem": "images/aneis/anel5.jpg"
     },
     {
         "nome": "ANEL PRATA COBRA TRABALHADA ZIRCONIA",
         "codigo": "0052552",
-        "preco": "89.90",
+        "preco": 89.9,
         "categoria": "aneis",
         "imagem": "images/aneis/anel4.jpg"
     },
     {
         "nome": "ANEL PRATA SOLITARIO ZIRCONIA CORACAO ROSA ARO TRABALHADO",
         "codigo": "0062551",
-        "preco": "65.90",
+        "preco": 65.9,
         "categoria": "aneis",
         "imagem": "images/aneis/anel3.jpg"
     },
     {
         "nome": "ANEL PRATA SOLITARIO ZIRCONIA CORACAO ESMERALDA ARO TRABALHADO",
         "codigo": "0062553",
-        "preco": "65.90",
+        "preco": 65.9,
         "categoria": "aneis",
         "imagem": "images/aneis/anel2.jpg"
     },
     {
         "nome": "ANEL PRATA SOLITARIO ZIRCONIA CORACAO ARO TRABALHADO",
         "codigo": "0062550",
-        "preco": "64.90",
+        "preco": 64.9,
         "categoria": "aneis",
         "imagem": "images/aneis/anel1.jpg"
     }
