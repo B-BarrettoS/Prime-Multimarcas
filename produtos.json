@@ -1,5 +1,54 @@
 [
     {
+        "codigo": "0062291",
+        "nome": "CORRENTE PRATA 3X1 60 CM",
+        "preco": 199.9,
+        "categoria": "correntes masculinas",
+        "imagem": "images/piercings/0062291.jpg"
+    },
+    {
+        "codigo": "0066821",
+        "nome": "CORRENTE PRATA GRUMET 70 CM",
+        "preco": 329.9,
+        "categoria": "correntes masculinas",
+        "imagem": "images/piercings/0066821.jpg"
+    },
+    {
+        "codigo": "0061432",
+        "nome": "CORRENTE PRATA GRUMET 70 CM",
+        "preco": 629.9,
+        "categoria": "correntes masculinas",
+        "imagem": "images/piercings/0061432.jpg"
+    },
+    {
+        "codigo": "0055598",
+        "nome": "CORRENTE PRATA GRUMET 60 CM 4,15MM",
+        "preco": 469.9,
+        "categoria": "correntes masculinas",
+        "imagem": "images/piercings/0055598.jpg"
+    },
+    {
+        "codigo": "0064391",
+        "nome": "CORRENTE PRATA GRUMET 60 CM",
+        "preco": 299.9,
+        "categoria": "correntes masculinas",
+        "imagem": "images/piercings/0064391.jpg"
+    },
+    {
+        "codigo": "0061431",
+        "nome": "CORRENTE PRATA GRUMET 60 CM",
+        "preco": 549.9,
+        "categoria": "correntes masculinas",
+        "imagem": "images/piercings/0061431.jpg"
+    },
+    {
+        "codigo": "0061869",
+        "nome": "CORRENTE PRATA 3X1 60 CM",
+        "preco": 469.9,
+        "categoria": "correntes masculinas",
+        "imagem": "images/piercings/0061869.jpg"
+    },
+    {
         "codigo": "0065830",
         "nome": "PIERCING PRATA COM ACO UMBIGO LACO ZIRCONIAS E GOTA PENDURADA",
         "preco": 69.9,
@@ -425,41 +474,6 @@
         "preco": 149.9,
         "categoria": "gargantilhas",
         "imagem": "images/gargantilhas/gargantilha1.jpg"
-    },
-    {
-        "nome": "CORRENTE PRATA CILINDRO TRABALHADO 40 CM",
-        "codigo": "0062296",
-        "preco": 249.9,
-        "categoria": "correntes",
-        "imagem": "images/correntes/corrente5.jpg"
-    },
-    {
-        "nome": "CORRENTE PRATA 3X1 70 CM",
-        "codigo": "0050452",
-        "preco": 299.9,
-        "categoria": "correntes",
-        "imagem": "images/correntes/corrente4.jpg"
-    },
-    {
-        "nome": "CORRENTE PRATA GRUMET 70 CM 4MM",
-        "codigo": "0050926",
-        "preco": 349.9,
-        "categoria": "correntes",
-        "imagem": "images/correntes/corrente3.jpg"
-    },
-    {
-        "nome": "CORRENTE PRATA CORDAO BAIANO 70 CM",
-        "codigo": "0052246",
-        "preco": 159.9,
-        "categoria": "correntes",
-        "imagem": "images/correntes/corrente2.jpg"
-    },
-    {
-        "nome": "CORRENTE PRATA CARTIER 60 CM",
-        "codigo": "0052258",
-        "preco": 124.9,
-        "categoria": "correntes",
-        "imagem": "images/correntes/corrente1.jpg"
     },
     {
         "nome": "PULSEIRA PRATA CARTIER LOVE CORACAO VERMELHO ZIRCONIA",

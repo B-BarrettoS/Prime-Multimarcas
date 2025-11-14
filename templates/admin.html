@@ -195,9 +195,12 @@
       <label for="categoria">Categoria</label>
       <select id="categoria" name="categoria" required>
         <option value="">Selecione</option>
-        {% for cat in ['aneis','pulseiras','correntes','brincos','gargantilhas','piercings'] %}
-          <option value="{{ cat }}" {% if produto_edit and produto_edit.categoria == cat %}selected{% endif %}>{{ cat.capitalize() }}</option>
-        {% endfor %}
+        {% for cat in ['aneis','pulseiras','correntes masculinas','brincos','gargantilhas','piercings'] %}
+  <option value="{{ cat }}" {% if produto_edit and produto_edit.categoria == cat %}selected{% endif %}>
+    {{ cat.title() }}
+  </option>
+{% endfor %}
+
       </select>
     </div>
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ categoria|capitalize }} - Prime Multimarcas</title>
+    <title>{{ categoria.replace('_', ' ')|title }} - Prime Multimarcas</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -191,7 +191,7 @@
             color: #666;
         }
 
-        /* 🔍 Modal da imagem */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -238,7 +238,7 @@
     </div>
 
     <section class="produtos">
-        <h2>{{ categoria|capitalize }}</h2>
+        <h2>{{ categoria.replace('_', ' ')|title }}</h2>
 
         <div class="search-box">
             <input type="text" id="searchInput" placeholder="Buscar por nome ou código..." onkeyup="filtrarProdutos()">
@@ -284,7 +284,7 @@
         <p>© 2025 Prime Multimarcas - Todos os direitos reservados.</p>
     </footer>
 
-    <!-- Modal de imagem -->
+    <!-- Modal -->
     <div id="imagemModal" class="modal">
         <span class="close" onclick="fecharImagem()">&times;</span>
         <img class="modal-content" id="imagemAmpliada">
@@ -301,7 +301,6 @@
             });
         }
 
-        // Funções para abrir e fechar imagem
         function abrirImagem(img) {
             const modal = document.getElementById("imagemModal");
             const imgAmpliada = document.getElementById("imagemAmpliada");
