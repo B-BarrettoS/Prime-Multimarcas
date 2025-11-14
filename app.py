@@ -226,6 +226,7 @@ def verificar_codigo(codigo):
     return jsonify({'existe': existe})
 
 
+
 # ---------- EXECUÇÃO ----------
 if __name__ == '__main__':
     app.run(debug=True)

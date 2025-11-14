@@ -364,13 +364,6 @@
         "imagem": "images/piercings/piercing9.jpg"
     },
     {
-        "nome": "PIERCING PRATA ARGOLA COM MEIA ARGOLA CRAVEJADA ZIRCONIAS",
-        "codigo": "0056628",
-        "preco": 29.9,
-        "categoria": "piercings",
-        "imagem": "images/piercings/piercing8.jpg"
-    },
-    {
         "nome": "PIERCING PRATA ARCOS TRABALHADOS",
         "codigo": "0049780",
         "preco": 29.9,
@@ -404,13 +397,6 @@
         "preco": 29.9,
         "categoria": "piercings",
         "imagem": "images/piercings/piercing3.jpg"
-    },
-    {
-        "nome": "PIERCING ACO COM PRATA COROINHA ZIRCONIAS",
-        "codigo": "0053598",
-        "preco": 29.9,
-        "categoria": "piercings",
-        "imagem": "images/piercings/piercing2.jpg"
     },
     {
         "nome": "PIERCING ACO COM PRATA CORACAO ZIRCONIAS BOLINHA",
